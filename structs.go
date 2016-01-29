@@ -17,6 +17,9 @@ type Connection struct {
 	// The port to use
 	Port string
 
+	// The http user + password
+	User *url.Userinfo
+
 	// Client is the http client used to make requests, allowing settings things
 	// such as timeouts etc
 	Client *http.Client

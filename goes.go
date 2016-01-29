@@ -31,8 +31,8 @@ func (err *SearchError) Error() string {
 //
 // This function is pretty useless for now but might be useful in a near future
 // if wee need more features like connection pooling or load balancing.
-func NewConnection(host string, port string) *Connection {
-	return &Connection{host, port, http.DefaultClient}
+func NewConnection(host string, port string, user *url.Userinfo) *Connection {
+	return &Connection{host, port, user, http.DefaultClient}
 }
 
 func (c *Connection) WithClient(cl *http.Client) *Connection {
@@ -443,6 +443,7 @@ func (r *Request) Url() string {
 	path += "/" + r.api
 
 	u := url.URL{
+		User:     r.Conn.User,
 		Scheme:   "http",
 		Host:     fmt.Sprintf("%s:%s", r.Conn.Host, r.Conn.Port),
 		Path:     path,
